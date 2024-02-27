@@ -1,0 +1,431 @@
+# Enterprise module (Java branch)
+
+### Java Enterprise and Spring
+
+#### What are the possible uses of reflection?
+
+egyik megnyilvánulása a Component Scan
+
+A "reflection" kifejezés a Java nyelv egy olyan funkciójára utal, amely lehetővé teszi a programoknak, hogy dinamikusan vizsgálják és manipulálják az osztályokat, interfészeket, mezőket, módszereket és konstruktorokat FUTÁSI IDŐBEN.
+
+Komponensek automatikus felderítése: A Spring az alkalmazásfejlesztés során gyakran számos komponenst és osztályt használ, mint például szolgáltatásokat, repository-kat vagy vezérlőket. A reflection segítségével a Spring képes felderíteni ezeket a komponenseket az osztályok metainformációinak (például annotációk) alapján, így nem szükséges mindegyiket kézzel konfigurálni.
+
+Dependency Injection: A Spring Dependency Injection (DI) mechanizmusának része a reflection. A Spring konténer dinamikusan injektálja a szükséges függőségeket a komponensekbe, és ehhez a reflection-t használja az osztályok konstruktorainak vagy setter metódusainak megtalálására és hívására.
+
+Konfiguráció olvasása: A Spring konfigurációs fájlokban (például XML vagy Java alapú konfiguráció) lehetőséget nyújt a metainformációk definiálására. A reflection segítségével a Spring képes beolvasni ezeket a konfigurációkat, és létrehozni a megfelelő objektumokat és komponenseket a futási időben.
+!!!!!!!!!!
+Egy objektum példányosítása az osztály ismerete nélkül a fordítási időben.
+
+------------------------------------------------
+
+In java reflection is a feature that allows a program to obtain(and display) meta-data about itself dynamically at runtime. Possible uses include:
+- instantiation of an object without knowing the class at compile time
+- methods can be called dynamically at runtime
+- helps using annotations for frameworks
+
+#### What is Spring?
+
+Népszerű nyílt forráskódú java keretrendszer vállalati szintű alkalmazások fejlesztéséhez, valamint kisebb projektekhez is alkalmas.
+Felöleli az alkalmazásfejlesztési folyamat legtöbb részét, pl. biztonság, adathozzáférés, tranzakció stb. Támogatja az olyan bevált gyakorlatokat, mint a modularitás, a rugalmasság, és IoC+-függőségi injekciót használ. Jól integrálható a modern, népszerű tesztelési keretrendszerekkel is.
+
+IoC
+DI
+loosely coupled
+kiegészító modulok: s.boot, s.data, s.security
+microservices készítéshez
+
+---------------------------
+
+A popular open-source java framework for developing enterprise-level applications, as well as being suited for smaller scale projects.
+It encompasses most parts of the application development process, e.g. security, data-access, transaction and more. Promotes best practices like modularity, flexibility and uses IoC+dependency injection. Integrates well with modern-popular testing frameworks as well. 
+
+#### What is Spring Boot?
+
+A Spring boot egy nyílt forráskódú keretrendszer a Spring ökoszisztémában, amely alapértelmezett KONFIGURÁCIÓkat biztosít az alkalmazások létrehozásakor, hogy segítse a fejlesztőket az indulásban, és az alapvető architektúra és beállítás helyett a kódjuk üzleti logikájára összpontosítson. A Spring Boot Starters LEEGYSZERŰSÍTI A FÜGGŐSÉGEK BEÁLLÍTÁSÁT, míg tesztelési segédprogramjai egyszerű és hatékony tesztelést biztosítanak. Összességében a Spring Boot felgyorsítja a fejlesztést, különösen a mikroszolgáltatások esetében, anélkül, hogy lecserélné a Spring Framework-et, továbbfejleszti azt.
+
+miket konfigurál?
+-http szerver: Tomcat
+-tesztek
+
+---------------------------------------
+
+Spring boot is an open-source framework in the spring ecosystem that provides default configurations when building applications to help developers  get started and focus on the business logic of their code instead of the core architecture and setup. Spring Boot Starters simplify setting up dependencies, while its testing utilities ensure easy and effective testing. Overall, Spring Boot accelerates development, especially for microservices, without replacing the Spring Framework but enhancing it.
+
+#### What is the major difference between the Standard edition (JSE) and Enterprise edition (JEE)? You can choose Spring (Spring Boot) instead of JavaEE. Focus on comparing them.
+
+A jse és a jee közötti fő különbség a célközönség és a hatókör. A JSE az alapvető funkciók biztosítására összpontosít, mint például az alap API, futási környezet, fejlesztői eszközök stb. A JEE a JSE-re épít, és a nagy, méretezhető, biztonságos, többszintű alkalmazásokra összpontosít.
+A JSE könnyű, a JEE (lényegében) nagyméretű orientált jse.
+
+A Spring és a Jakarta EE különböző célokat szolgál. A Spring rugalmasságot, választékot és modern fejlesztési gyakorlatokat kínál, így a projektek széles skálájára alkalmas, beleértve a mikroszolgáltatásokat is. A Jakarta EE ezzel szemben szabványosított platformot biztosít a vállalati funkciókra összpontosítva, és különösen alkalmas hagyományos, nagyszabású vállalati alkalmazások építésére.
+
+A JSE-ben minden java.* - al kezdődő könyvtár megtalálható.
+A JEE jpa, Spring stb. a vállalati kiadás részei, és minden, amit magukkal hoznak.
+
+A java 9 körül a felosztás kezdett elhalványulni, és a jdk tartalmazza a "mindkettőt"
+
+Tehát a Spring Framework az általános Java alkalmazások fejlesztését segíti elő, míg a Spring Boot a Spring alapú alkalmazások gyors és egyszerű létrehozására összpontosít, minimalizálva a konfigurációs teendőket. Mindkét esetben a Spring keretrendszerre építve a fejlesztők előnyben részesíthetik a Spring nyújtotta előnyöket, például a komponensalapú fejlesztést, a DI-t és az IoC-t.
+A Spring Boot egy továbbfejlesztett keretrendszer a Spring Frameworkön alapulva, és általában a JSE (Java SE) részeként használható.
+A Spring Boot célja, hogy egyszerűsítse és felgyorsítsa a Spring alapú alkalmazások fejlesztését.
+A Spring Boot bevezet olyan konvenciókat és alapértelmezett beállításokat, amelyek minimalizálják a konfigurációs erőfeszítéseket, és lehetővé teszik egy önálló futtatható alkalmazás gyors létrehozását.
+
+----------------------------------------
+
+The major diference between jse and jee is the target-audience and scope. JSE focuses on providing the fundamental features, like the core api, a runtime environment, development tools, etc. JEE builds on JSE and focuses on large, scalable, secure multi-tiered applications. 
+JSE is lightweight, JEE is (essentially) large-scale oriented jse. 
+
+Spring and Jakarta EE serve different purposes. Spring offers flexibility, choice, and modern development practices, making it suitable for a wide range of projects, including microservices. Jakarta EE, on the other hand, provides a standardized platform with a focus on enterprise features and is particularly well-suited for building traditional, large-scale enterprise applications
+
+JSE has every library starting with java.* 
+JEE jpa, spring etc are parts of enterprise edition and everything they bring with themselves. 
+
+Around java 9 (lookup) the division started to fade away and the jdk contains "both".
+
+#### What are the advantages of the Spring Framework? Focus on the Core part.
+
+A Spring Framework olyan alapvető szolgáltatásokat és komponenseket biztosít, mint a Dependency Injection (DI), az Inversion of Control (IoC), a tranzakciókezelés, a szolgáltatások (Service), a komponensek és a közvetítők.
+A Spring Framework segítségével egyszerűen építhetünk Java alkalmazásokat, kezelhetjük a komponensek közötti függőségeket, és kényelmesen kezelhetjük a tranzakciókat és az adatbázisokhoz való hozzáférést.
+
+#### What is a servlet? What is the purpose of DispatcherServlet in Spring?
+
+A "servlet" kifejezés egy olyan Java technológiára utal, amelyet dinamikus webes alkalmazások fejlesztéséhez használnak. A servletek Java osztályok, amelyeket a szerveroldalon futtatnak, és HTTP kéréseket kezelnek, majd HTTP válaszokat generálnak a kliens számára. A servletek lehetővé teszik a fejlesztők számára, hogy dinamikus és interaktív webes alkalmazásokat hozzanak létre, mivel Java kód segítségével generálhatnak HTML-t vagy más tartalmat a kliens számára.
+
+A "DispatcherServlet" egy speciális típusú servlet a Spring Frameworkben. A DispatcherServlet a Spring alapú webes alkalmazások központi összekötőpontja vagy központi irányítója. 
+!!!!!!!!!!!
+Az alkalmazás indításakor a DispatcherServlet inicializálása és konfigurációja történik, majd később HTTP kéréseket fogad, kezeli és irányít más komponensek felé.
+
+A DispatcherServlet része a Spring MVC (Model-View-Controller) keretrendszernek, amely lehetővé teszi a fejlesztőknek a könnyű és rugalmas webes alkalmazások fejlesztését a Spring Framework segítségével. Azáltal, hogy központi irányítást és feldolgozást biztosít a HTTP kéréseknek, a DispatcherServlet nagy mértékben hozzájárul a Spring alapú webes alkalmazások szerkezetéhez és hatékonyságához.
+
+!!!!!!!!
+A DispatcherServlet központi irányítópontja az alkalmazásnak a HTTP kérések kezelésében. A kéréseket a megfelelő vezérlők felé irányítja, ami segít az alkalmazás struktúrájának és a kérések feldolgozásának rendezett és könnyen karbantartható tartásában.
+
+#### When do you use RestControllers, when just simple Controllers?
+
+A Spring Frameworkben a @RestController és a @Controller annotációk két különböző típusú vezérlő (controller) osztályt jelölnek meg. A lényegi különbség a kettő között az, hogy a @RestController általában RESTful webszolgáltatások fejlesztéséhez használt, míg a @Controller inkább a hagyományos webalkalmazások vezérlőit jelöli meg, amelyek HTML oldalakat generálnak.
+
+@RestController:
+    A @RestController annotáció a Spring keretrendszerben a @Controller és az @ResponseBody annotációk egyesítéséből áll.
+    A @RestController annotáció azt jelzi, hogy a vezérlő osztály olyan RESTful webszolgáltatásokat implementál, amelyek JSON vagy XML formátumú adatokat szolgáltatnak a klienseknek.
+    A metódusok, amelyeket egy @RestController annotált osztályban találunk, alapértelmezés szerint a @ResponseBody annotációval vannak ellátva, ami azt jelenti, hogy a metódusok által visszaadott objektumokat automatikusan JSON vagy XML formátumba alakítják, és a klienseknek továbbítják.
+    A @RestController ideális olyan alkalmazásokhoz, amelyek API-kat készítenek, és a kliensekkel adatokat cserélnek.
+
+    A @Controller annotáció azt jelöli, hogy egy osztály egy vezérlő osztály, amely a Spring MVC keretrendszer része, és HTTP kéréseket kezel.
+
+    !!!!!!!!!!!!!!!!!
+    Az @ResponseBody annotáció pedig azt jelzi, hogy az osztály metódusai olyan válaszokat generálnak, amelyeket közvetlenül a HTTP válasz testében kell elhelyezni, például JSON vagy XML formátumban. Ez azt eredményezi, hogy a metódusok visszatérési értékét ne alakítsa át nézetként, hanem közvetlenül a válasz testébe helyezze.
+
+@Controller:
+    A @Controller annotáció azt jelzi, hogy a vezérlő osztály hagyományos webalkalmazás vezérlője, és HTML oldalakat generál.
+    A metódusok általában visszatérhetnek olyan nézetekkel (View), amelyek HTML oldalakat vagy egyéb formátumú válaszokat reprezentálnak.
+    A @Controller osztályokat általában olyan alkalmazásokban használják, ahol a szerver oldali generált HTML oldalakat jelenítenek meg a felhasználók számára.
+
+
+#### What is Spring Application Context?
+
+A Spring Application Context (vagy röviden ApplicationContext) egy kulcsfontosságú része a Spring Frameworknek, egy olyan KONTÉNER, amely kezeli és tárolja az alkalmazás komponenseinek (BEANek) konfigurációját és élettartamát. Az ApplicationContext felelős a Spring alkalmazás ÖSSZES KOMPONENSÉNEK LÉTREHOZÁSÁÉRT, konfigurációjáért és kezeléséért, és lehetővé teszi ezek közötti kommunikációt.
+
+Funkciói: 
+    - IoC, DI
+    - Beanek élettartam kezelése
+    - konfiguráció
+    - környezeti beállítások
+    - beanek közötti kommunikáció
+
+#### What are the main ways to define a bean in the Application Context?
+
+1. annotáció használata 
+2. XML-alapú konfiguráció használata és a bean elem használata a Spring konfigurációs fájlban
+
+Konfigurációs osztály létrehozása: Hozzunk létre egy Java konfigurációs osztályt, amelyet a @Configuration annotációval látunk el. Ebben az osztályban definiáljuk a beaneket a @Bean annotációval.
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public MyBean myBean() {
+        return new MyBean();
+    }
+
+    @Bean
+    public AnotherBean anotherBean() {
+        return new AnotherBean();
+    }
+}
+
+ApplicationContext inicializálása: Az alkalmazás indításakor inicializálni kell az ApplicationContext-et, és meg kell adni a konfigurációs osztályt a kontextusnak. Ezt általában a AnnotationConfigApplicationContext használatával tehetjük meg.
+
+ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+Most a beaneket a Java alapú konfigurációban definiáljuk és annotációkkal konfiguráljuk. Az XML-konfiguráció helyett a @Configuration annotációval ellátott osztály tartalmazza a bean definíciókat.
+
+A Java alapú konfiguráció és az annotációk használata a Spring alkalmazások fejlesztésében egyre népszerűbb, mivel lehetővé teszi a kódbázis jobb átláthatóságát és karbantarthatóságát. Az XML-alapú konfigurációval összehasonlítva ezek az eljárások könnyebben érthetőek és fejleszthetőek, különösen kisebb és közepes méretű alkalmazások esetén.
+
+#### Difference between .jar and .war files.
+
+.jar (Java Archive):
+    A .jar kiterjesztésű fájlok a Java alkalmazások archívumformátumai. Ezek az archívumok általában a Java osztályokat, a forráskódokat, a könyvtárakat és a függőségeket tartalmazzák, és egy kompakt állományban vannak összegyűjtve.
+    A .jar fájlok gyakran használhatók az osztálykönyvtárak és a Java alkalmazások terjesztéséhez, valamint az alkalmazások futtatásához.
+
+.war (Web Application Archive):
+    A .war kiterjesztésű fájlok a Java EE (Enterprise Edition) alkalmazások elosztási formátumai. Ezek az archívumok tartalmazzák a teljes Java webalkalmazást, beleértve a servleteket, JSP oldalakat, HTML fájlokat, konfigurációs fájlokat, stb.
+    A .war fájlok közvetlenül futtathatók egy Java EE kompatibilis alkalmazásszerveren, mint például a Tomcat vagy a WildFly. Ezek az alkalmazások készülnek webes alkalmazásokhoz.
+
+Tehát a .jar kiterjesztésű fájlok általában általános Java alkalmazásokhoz és osztálykönyvtárakhoz kapcsolódnak, míg a .war kiterjesztésű fájlok teljes értékű Java webalkalmazásokhoz használhatók. A .war fájlok tartalmazzák a webes alkalmazásokhoz szükséges összes erőforrást és konfigurációt, míg a .jar fájlok inkább a Java komponensek és könyvtárak terjesztésére szolgálnak.
+
+-------------------------
+
+.jar files: The .jar files contain libraries, resources and accessories files like property files.
+
+.war files: The war file contains the web application that can be DEPLOYED on a servlet/jsp container. The .war file contains jsp, html, javascript and other files necessary for the development of web applications.
+
+In summary, .jar files are used for Java applications and libraries, while .war files are used for web applications deployed on application servers.
+
+#### What are the major differences between Maven, Ant and Gradle?
+
+Szoftverépítő és projektkezelő eszközök, amelyek a Java-alapú projektfejlesztést és alkalmazásépítést segítik elő. Mindhárom eszköz célja a projekt függőségeinek kezelése, az alkalmazások automatizált build-folyamatának végrehajtása és az alkalmazások elkészült csomagolása
+
+Maven, Ant: XML alapú konfigurációval dolgozik
+
+Gradle: Groovy DSL (Domain Specific Language) vagy Kotlin nyelven írt konfigurációkat használ
+
+--------------------------------------
+
+Both maven, ant and gradle are used as dependency/tool management and build automation tools. Most of the differences lie in the level of configuration control allowed vs ease of use.
+(order of birth : Ant(2000) -> Maven(2004) -> Gradle(2008))
+Maven and Gradle put conventions over configuration making this whole process more streamlined, but as a result less flexible. Ant on the other hand is more flexible, but also harder to maintain or get used to when working on different projects.
+Maven and Ant use .xml files, Gradle uses .gradle(or .gradle.kts for kotlin)
+Gradle uses a domain specific language for handling dependencies, givng it a slightly steeper initial learning curve, but minimises syntax and is easier to work with once its users are used to it. 
+
+All-in-all maven is the most common of the 3 due to its ease of use (without too much initial knowledge-requirements), large userbase and thus support, ide integration and online tooling that helps to initialise it. (the others also have tools for this, but maven is the most convention oriented of the three and as a result easiest to simplify building it with an online tool).
+
+#### What is Maven used for?
+Managing dependencies and tools for a project and automating its build process. One of the most "rigid" but easiest to start using tools for this. 
+#### What does a pom.xml file contains in Maven?
+
+- project information
+- version
+- építési konfiguráció <build>
+- dependencies
+- repositories
+- different environments in which different setups would be used. e.g. dev environment vs deployment
+
+### Object Relational Mapping, JPA
+
+#### What is an ORM? What are the benefits, when to use?
+
+Szoftvertervezési és fejlesztési TECHNIKA, amely segít az objektumorientált programozási nyelvek, például a Java vagy a C#, és a relációs adatbázisok közötti kölcsönhatás kezelésében.
+Az ORM célja, hogy az alkalmazások objektumait és az adatbázisban tárolt adatokat könnyen ÖSSZEHANGOLJA és ÁTFORDÍTSA EGYMÁSBA. Ennek az az előnye, hogy a fejlesztők objektumorientált módon kezelhetik az adatokat, és nem kell SQL-lel közvetlenül dolgozniuk.
+
+-----------------------------
+
+Object-relational-mapping, orm connects a normally non-compatible object-oriented language and a relational database, mapping from one to the other, significantly reducing and optimizing the code neccesary. ORM is a "technique" and each language has (multiple)implementations of it. 
+Benefits include: reduced, optimized code, programmer experience carries over more than it would if every application manually implemented an orm in a different way. Most popular orm libraries have also been in use for decades, which means itS less likely to encounter bugs, unexpected behaviour, and a solution is more likely to already exist to any given issue. Provides a layer of abstraction between the db and the rest of the application so changes to the database wont effect the rest of the app.
+Downsides: it's a tool that has to be learned, (debatable) but performance can be worse than manually written sql in some cases. Increased memory usage. The codebase can get coupled to the orm instead of a db, same problem, on a different layer. Can lead to programmers misunderstanding the time and memory cost of a query, since it isnt implemented by them. Debugging is mega difficult. 
+
+#### What is the difference between JDBC and JPA? Which are the advantages and disadvantages of each? Give a general overview.
+
+A JDBC (Java Database Connectivity) és a JPA (Java Persistence API) két különböző technológia a Java alkalmazások és relációs adatbázisok közötti kapcsolat kezelésére.
+
+JDBC: A JDBC egy alacsony szintű API, amely lehetővé teszi a Java alkalmazásoknak, hogy közvetlenül kommunikáljanak relációs adatbázisokkal. A fejlesztőknek SQL lekérdezéseket kell írniuk és adatbázis-vezérlők használniuk a kapcsolat fenntartásához és az adatok lekérdezéséhez és frissítéséhez.
+-összetettebb lekérdezésekre
+
+JPA: A JPA egy magasabb szintű absztrakció, amely az ORM (Object-Relational Mapping) technológiára épül. Leegyszerűsíti az adatbázis műveletek elvégzését azáltal, hogy az objektumorientált entitásokat és az adatbázis táblákat közötti leképezést kezeli.
+-egyszerűbb lekérdezésekre
+
+----------------------
+
+Java Persistance API is a higher-level abstract api that provides an orm framework that describes different orm libraries and database implemenetations core workings to allow easier integration/migration, etc. Java Database Connectivity offers much lower level of abstraction, in which developers still need to explicitly write SQL queries and manage many of the feature JPA implicitly provides.
+JPA pros:
+-reduced code overhead and repetition
+-easier to do simple queries with
+-less error prone
+JDBC pros:
+-easier to write complex queries
+-developers dont have to learn JPA to be able to use it
+-doesnt abstract away too much of the database and the real cost of each query is much more apparent
+-can be easier to debug
+
+Overall JPA-s are very useful for simple CRUD operations, but for very complex databases JDBC is a better choice. 
+
+#### What is Hibernate? What are the advantages, limitations?
+
+JPA-ORM implementáció.
+A Hibernate egy Java alapú ORM (Object-Relational Mapping) keretrendszer, amely lehetővé teszi az objektumok és az adatbázisok közötti leképezést és kölcsönhatást.
+
+Előnyei:
+
+    Objektumorientált leképezés
+
+    Adatbázis-függetlenség: A Hibernate általában adatbázis-független, így könnyen lehet áttelepíteni az alkalmazást különböző adatbázisrendszerekre, anélkül hogy jelentős változtatásokra lenne szükség.
+
+    Automatikus SQL generálás: A Hibernate automatikusan generálja az SQL lekérdezéseket és műveleteket a háttérben, így a fejlesztőknek nem kell SQL-t írniuk. Ez egyszerűsíti a fejlesztést és csökkenti a kódismétlést.
+
+    Másodpercenkénti szintű gyorsítótárazás: A Hibernate lehetőséget nyújt a másodpercenkénti szintű gyorsítótárazásra, amely növelheti az alkalmazás teljesítményét és csökkentheti az adatbázis terhelését.
+
+    Jól dokumentált és széles körben támogatott: A Hibernate egy jól dokumentált ORM keretrendszer, amelynek számos közösségi és kereskedelmi támogatása van. Sok online forrás, cikk és könyv is elérhető a Hibernate-ről.
+
+Korlátai:
+
+    Tanulási görbe: A Hibernate használata kezdetben tanulási görbét igényel, különösen azok számára, akik nem rendelkeznek korábbi ORM tapasztalattal. A megfelelő konfiguráció és leképezés megértése időt vehet igénybe.
+
+    Teljesítményproblémák: Rosszul konfigurált Hibernate alkalmazásokban teljesítményproblémák léphetnek fel, különösen nagy mennyiségű adat esetén. Megfelelő indexelés és lekérdezési optimalizációk szükségesek.
+
+    Komplex konfiguráció: Nagyon összetett alkalmazásokban a Hibernate konfigurációja is összetett lehet, és az alkalmazás követheti az ORM alapelveinek megértését és a helyes tervezési minták alkalmazását.
+
+-----------------------------------
+
+Probably the most common and well known JPA - ORM IMPLEMENTATION. It is used to map objects into rows of relational databases (and creating different tables for different entities) and vica versa. 
+As with other orms its advantages are resolving the object-relational impedence mismatch without relying on manual implementation by the developer. Heavily optimised, in most simple cases it'll be faster than explicitly writing sql. 
+Limitations: cant create the database itself (but handles basically everything else after that is done), using it with classes that use inheritance is tricky and error-prone. Difficult to debug. Requires extra knowledge to use. Difficult to use it for complex databases and queries joining together tables in a database. Potentially slower than explicitly written sql in some cases.
+
+#### Name 3 different annotations used in JPA, what can they do for you?
+
+@Entity:
+ADATBÁZIS TÁBLA
+Az @Entity annotáció segítségével megjelölhetjük egy Java osztályt, hogy az egy JPA entitás.
+Az entitások olyan Java objektumok, amelyeket az adatbázisban tárolunk és leképezünk. Az @Entity annotáció jelzi a JPA számára, hogy az adott osztályhoz egy adatbázis tábla tartozik.
+
+@Id:
+PRIMARY KEY
+Az @Id annotáció segítségével megjelölhetjük egy osztály egy mezőjét vagy getter metódusát, hogy az az entitás egyedentifikációs kulcsa (primary key) legyen az adatbázisban.
+A primary key egyedi azonosítója az entitásnak, és lehetővé teszi az adott entitás egyedek egyértelmű azonosítását az adatbázisban.
+
+@Column:
+Az @Column annotáció segítségével testre szabhatjuk egy entitás osztály mezőjének vagy getter metódusának adatainak tárolását az adatbázisban.
+Az @Column annotációval megadhatjuk a mező nevét az adatbázisban, a méretét, az indexelését és egyebeket.
+
+PL.:
+
+@Entity
+public class Employee {
+    @Id
+    private Long id;
+    
+    @Column(name = "full_name", length = 100, nullable = false)
+    private String fullName;
+    // ...
+}
+
+------------------------------------
+
+@Entity: an entity class represents a database table, and its objects are the rows of the table. The O in ORM.
+@OneToOne, @OneToMany etc...: tells the relation between different tables of a database
+@Id declares a field as the primary key for the table made of the entity class
+
+#### What is object-relational impedance mismatch?
+
+Ez a kifejezés az objektumorientált világ és a relációs adatbázis világ közötti konfliktusra utal.
+A "mismatch" (különbség vagy eltérés) azt mutatja, hogy az objektumorientált programozás és a relációs adatbázisok közötti alapvető különbségek és nehézségek adódnak.
+- adatmodell különbségek
+- öröklés és asszociációk kezelése
+- objektum- és relációs adatbázis műveletek közötti inkompatibilitás
+- hibernate feloldja
+
+---------------------------------------------
+
+Objects and relational databases are simply *built different* and objects often cant be saved as is into relational databases. The differences have to be resolves somehow, either by manually implementing a solution or by using an orm that manages mapping objects into relational databases and back.
+
+#### What is a JpaRepository? What are the 2 main methods to define queries in them?
+
+Egy interfész, amelyet a Spring alkalmazásokban használnak a JPA (Java Persistence API) alapú adatbázis hozzáférés egyszerűsítésére. A JpaRepository lehetővé teszi a fejlesztők számára az alapvető adatbázis műveletek, például lekérdezések, beszúrások, frissítések és törlések definiálását egy egyszerű és kényelmes módon.
+
+A JpaRepository definiál különböző alapvető műveleteket, amelyeket a fejlesztők az entitásokhoz tartozó metódusokkal használhatnak. 
+
+Method Name Query:
+    A JpaRepository lehetővé teszi a lekérdezések definiálását a metódusnevek alapján. A metódus nevét egy meghatározott szintaxis szerint készítik el, és az alapján azonosítják, hogy mely adatbázis műveletet kell végrehajtani.
+    Például, ha egy User entitáshoz tartozó findByUsername(String username) metódust definiálunk a JpaRepository segítségével, az Spring Data JPA automatikusan egy username mezőre vonatkozó lekérdezést hajt végre.
+
+    public interface UserRepository extends JpaRepository<User, Long> {
+        User findByUsername(String username);
+    }
+
+@Query annotáció:
+    A JpaRepository lehetővé teszi az SQL alapú lekérdezések definiálását az @Query annotáció segítségével. Ezzel az annotációval egy metódust ellátunk az SQL lekérdezés szövegével, amelyet végrehajtunk az adatbázisban.
+    Például:
+
+    public interface ProductRepository extends JpaRepository<Product, Long> {
+        @Query("SELECT p FROM Product p WHERE p.category = :category")
+        List<Product> findByCategory(@Param("category") String category);
+    }
+
+Ezenkívül a JpaRepository tartalmaz más műveleteket is, például beszúrás (save), frissítés (save vagy flush), törlés (delete), számlálás (count), és egyebek. Ezeket a műveleteket a fejlesztők az entitásokhoz tartozó metódusokkal használhatják a JpaRepository segítségével anélkül, hogy SQL-lel közvetlenül dolgoznának.
+
+--------------------------
+
+An interface provided by the spring data jpa framework a thick layer of abstraction that handles interactions between an application and a (relational)database used.
+1, using the methods of the interface without writing explicit sql
+2, @Query annotation and explicitly writing queries, either with jsql or native sql
+
+#### Why is the Set preferred over List when we want to store OneToMany relations?
+
+DUPLIKÁCIÓK ELKERÜLÉSE
+KERESÉS GYORSABB (O(1) az O(n)-hez képest)
+Egy adott entitáshoz tartozik több másik entitás, de ugyanaz az entitás ne legyen többször jelen.
+A Set hatékonyabb, ha ellenőrizni szeretnénk, hogy egy adott entitás már hozzá van-e adva a kapcsolathoz vagy sem. A Set gyorsan ellenőrizheti az egyedülállóságot, mivel hashtáblát (HashSet) vagy egyéb hatékony algoritmust használ.
+
+#### What kind of inheritance strategies are available? Which annotations are used to solve this?
+
+Az öröklődési stratégiák a JPA (Java Persistence API) keretrendszerben az @Inheritance annotációval és az InheritanceType felsorolással konfigurálhatók. Az @Inheritance annotáció az entitások osztályának felett helyezkedik el, és az öröklődési stratégiát határozza meg az adott entitásosztályra és annak leszármazottaira. Az InheritanceType felsorolás pedig azt határozza meg, hogy az öröklődési stratégia hogyan működik.
+
+Egytáblás öröklődés (Single Table Inheritance):
+    Ebben a stratégiában minden entitásosztály egyetlen táblához van rendelve az adatbázisban.
+    Az @Inheritance annotáció strategy attribútumát az InheritanceType.SINGLE_TABLE értékre kell állítani.
+    Az osztályok közötti különbségeket az @DiscriminatorColumn annotáció és az @DiscriminatorValue annotáció használatával lehet megadni.
+
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING)
+public class Vehicle {
+    // ...
+}
+
+@Entity
+@DiscriminatorValue("Car")
+public class Car extends Vehicle {
+    // ...
+}
+
+@Entity
+@DiscriminatorValue("Bike")
+public class Bike extends Vehicle {
+    // ...
+}
+
+Táblaper öröklődés (Table Per Class Inheritance):
+    Ebben a stratégiában minden entitásosztály saját táblával rendelkezik az adatbázisban, és az ősosztályok mezői ismétlődhetnek.
+    Az @Inheritance annotáció strategy attribútumát az InheritanceType.JOINED értékre kell állítani.
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Vehicle {
+    // ...
+}
+
+@Entity
+public class Car extends Vehicle {
+    // ...
+}
+
+@Entity
+public class Bike extends Vehicle {
+    // ...
+}
+
+Konkrét osztályok (Concrete Class):
+    Ebben a stratégiában nincs közös tábla és ősosztály, minden entitásosztály saját táblával rendelkezik, és nincs öröklődési hierarchia.
+    Ebben az esetben nem szükséges az @Inheritance annotáció használata.
+
+@Entity
+public class Car {
+    // ...
+}
+
+@Entity
+public class Bike {
+    // ...
+}
+
+-------------------------------------
+
+1, single-table inheritance: all subclasses are mapped to the table of the top level class with a discriminator column used to determine which row is an instance of which subclass. fields/properties not present across all subclasses are nullable. The C in acid kinda gets hurt here ngl. 
+2, table-per-class: every subclass has their own table, @Inheritance annotation is used. JOIN operations will be needed, for queries that need information that is scattered around super and subclasses. e.g. if staff extends person and we want to query every info of every person, we would need to query the prson table and leftjoin information from the staff table. Gets very complicated with complex inheritance structures 
+3, mapped superclass: subclasses have their own tables, the superclass is not mapped to any table, instead it holds data common between subclasses
+4, avoid inheritance in entity classes if possible or ease of use. 

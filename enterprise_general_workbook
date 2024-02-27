@@ -1,0 +1,570 @@
+# General enterprise questions
+
+## Software engineering
+
+### Architectures
+
+**1. What is n-tier (or multi-tier) architecture?**
+
+Több féle szoftver architetkúra létezik:
+- client-server
+- microservices
+- microkernel
+- layered
+
+N-tier az egy **multilayered client-server** architektúra, ahol a prezentációs, processing(üzleti) és adat funkciók logikailag és fizikailag is el vannak válaszva. 
+
+Az egyes layerek függőlegesen vannak összekötve, vagy akár ha úgy tetszik az **egyes elemeknek az elszeparálása** horizontálisan történik. 
+
+A fizikai és logikai szeparálás ellenére az N-tier alkalmazást felhsználónak **egységként** látják és használják.
+
+N-tier adaptálja a client-server model-t is. Ami azt jelenti, hogy több kliens kérhet és küldhet szolgáltatást egy központi szerverről.
+
+És utolsónak az N-tier azt jelenti, hogy tetszőleges rétege lehet, habár 3 a legjellemzőbb. 1 Tier az, amikor minden komponens egy gépen van. 
+
+
+#### Layered architetktúra részei
+
+![](https://www.baeldung.com/wp-content/uploads/sites/4/2022/01/ntier.drawio.drawio.svg "N tier")
+
+- Presentation
+- Processing or Logic
+- Data
+
+**Példa** erre egy korház webalkalmazás, ahol betegek tudnak az orvosoknál időpontot foglalni. 
+- Presentation layer: User be tud logolni, orvost ki tudja választani az oldalon.
+- Processing or Logic: Pl elvégzik az authorizációs és egyéb ellenőrzési folyamatokat
+- Data: Pl egy MySQL adatbázis van egy másik gépen, ami tárolja a beteg, orvos stb adatokat
+
+Vagy előző munkahely: Forrás .Net
+
+**Előnyei:** 
+- A különböző rétegeket módosíthatjuk anélkül, hogy a másikhoz hozzá kelljen nyúlni
+- Az előzőből eredő a skálázhatóság. Ha pl bővíteni akarunk tárhelyet az adatbázison, vagy memóriát a web szerveren
+- Biztonság. Rétegeket külön-külön lehet védeni megfelelő privilégiumokkal.
+
+**Hátrányai**:
+
+- Ahogy növekszik a layerek száma úgy növekszik a latency, de ezt egy gyors communication linkkel orvosolni lehet.
+- Tier-ek növelése a complexitás növekedéséhez vezethet. Ráadásul több mindent kell üzemeltetni.
+
+**Hol érdemes használni?**
+
+- Ahol biztosítva van a gyors kommunikáció és ahol a skálázhatóság és biztonság előnyt élvez.
+
+**2. What are microservices? Advantages and disadvantages?**
+
+![](https://www.baeldung.com/wp-content/uploads/sites/4/2021/05/Blank-diagram-1.svg "Platform independence")
+
+**Microservices** architektúra egy olyan törekvés, ahol a complex alkalmazást szétszedjük kisebb loosly coupled services-ekké modulokká. Minden egyes modul egy speciális feladatot lát el és egy egyszerű interface-t használ. Ezeket a modulokat külön-külön lehet üzemeltetni és deployolni.
+A kommunikáció az egyes modulok között lehet:
+- HTTP request
+- Message broker pl Rabbit MQ
+- Service mesh: Egy külön service-van delegálva a kommunikációra
+
+Látható, hogy az N-tierhez képest ez egy függőleges felbontás.  (Szempont szerinti szeletelés)
+
+Megjelenhetnek olyan servicek is, amik az egész microservices működésben vannak jelent. Pl hol találok meg egy service-t vagy, ha
+egy ip címen bejött egy kérés, akkor hova routolja tovább a kérést.
+
+**Előnyei:** 
+- A különböző modulokat különböző csapatokhoz delegálhatjuk
+- Skálázhatóság: Az egyes modulokat külön-külön lehet bővíteni.
+- Az egyes modulok más-más programnyelven íródhatnak vagy más technológiai megoldásokat használhatnak
+
+**Hátrányai**:
+
+- Ahogy modulokra bontjuk az alkalmazást, növekedik a komplexitás. A kommunikáció a szolgáltatások között megnehezíti az egész működését.
+- Több mindent kell üzemeltetni.
+
+De vannak céleszközök a complexitás kezelésére, mint pl **Kubernetes**, ami a microservices-ek futtatására alkamas.
+
+**3. What is Separation of Concerns?**
+
+**Separation of Concerns** egy alapvető szoftver design elv, ami támogatja, hogy a komplex rendszereket világosan körülhatárolható részekre bontsuk, az egyes részek más-más feladatot (aspektust) fognak ellátni. SoC fő célje, hogy növeljük az program érthetőségét, karbantarthatóságát, skálázhatóságát, miközben csökken a rendszer komplexitása.
+
+Amit Benec mondott, hogy milyen irányban szeletelünk, azaz milyen szempont szerint szeletelünk. Layered, ntier vagy akár microservices.
+
+Fejlesztéskor ezek feladatok a rendszer különöbő aspetusai lehetnek:
+- user inteface
+- üzleti logika
+- data storage
+- security
+
+A fejlesztők a különböző concerneket, feladatokat függetlenül tudják módosítani anélkül, hogy a másikra hatással lennénk.
+
+A szétválasztásnak számos előnye van:
+- Modularitás: külön-külön lehet a modulok, fejleszteni, tesztelni, üzemeltetni
+- Újrahasznosíthatóság: Pl a auth-okat különöbő appokban tudjuk használni
+- Kollaboráció
+- Skálázhatóság
+- MVC alkamazása: 3 Concern: Model, View, Controller
+- Hasonlóan az mvc-hez beszélhetünk layered arhitektúráról
+- AOP
+- Microservices
+
+**4. What is a layered design and why is it important in enterprise applications?**
+
+Layerek egy logikai szeparálását jelenti a komponenseknek, mint pl Database Access Layer (DAL), Business Logic Layer (BLL) and User Interface Layer (UIL).
+Szoftverfejlesztésben a layered architektúra layere-i egy számítógépen is lehetnek. Az egyes layerek egy jól definiált interface-en keresztül kommunikálnak.
+Az karakterisztikája olyan, hogy az az egyes layerek csak az alattuk lévővel vannak összekötve. Tehát az 1 -es layert csak a kettesen keresztül lehet összekapcsolni a 3 assal.
+
+A másik koncepció az layerek izolálása. Ezt azt jelenti, hogy a layereket, ha módosítjuk, akkor nem érinti a többit.
+
+Layered architechure a network stack is.
+
+A layered design fontos az enterprice alkalmazásoknál:
+
+- **Modularity and Separation of Concerns (SoC)**: Layered design rákányszerít, hogy az separation of concern-et betartjuk azáltál, hogy layerekre bontjuk az alkalmazást és mindegyiknek megvan a dedikált funckionalitása. Ez a szeparáció lehetővé teszi, hogy könnyebben megértsük, fejlesszük, teszteljük és karbantartsuk az egyes részeket, ezzel csökkentve a komplexitást. 
+
+- **Üzemeltetés**
+
+- **Újrahasznosíthatóság és bővíthetőség**: Components within each layer can be designed for reuse. For instance, you can create common libraries for data access or business logic that can be employed across different parts of the application or in other projects. This promotes code reusability and reduces development effort.
+
+- **Testing and Quality Assurance**: Az egyes layereket külön függetlenül lehet tesztelni, unit és integration tesztekkel. Ezáltal robosztusabb és megbízható lesz a szoftver.
+
+- **Team Collaboration**: Az egyes csapatok más-más layereken dolgozhatnak.
+
+- **Security and Access Control**: Security layerben központosíthatjuk az authentikációt és az authorizációt.
+
+Jó példa a StackOeverflow project
+
+**5. What is Dependency Injection**
+
+Ha A osztály használja B osztály funkionalitásait, akkor azt mondjuk, hogy A függ B -től.
+
+Java-ban ahhoz, hogy a másik osztály metódusait használjuk létre kell hoznunk az objektumot abból a másik osztályból.
+
+Dependency Injection az, amikor egy dependency-t egy másik objektumnak vagy példánynak adunk át.
+Illetve DI egy szoftver dizájn pattern és technika, amit OOP-ben használunk, hogy elérjük az Inversion of Control elvet. Lényegében menedzselünk és biztosítunk dependencyket (objektumokat vagy szolgáltatásokat) osztálynak vagy komponsensnek anélkül, hogy az az osztály hozza létre a saját függőségeit. Ez lehetővé teszi a modularitást, karbantarthatóságot és tesztelhetőséget a szoftver rendszerkben.
+
+**Dependency injection alapvetően biztosítja az objektumokat annak az objektumnak, akinek szüksége van rá, ahelyett, hogy saját magában példányosíthatná(keretrendszer fogja példányosítani Springnél). Ez egy nagyon hasznos technika, tesztelésre, mert a függőségeket ki tudjuk mockolni.**
+
+A dependency inejctionnál kívülről juttatjuk be a dependency-t, ami a keretrendszer is lehet.
+
+3 fajta dependency injection létezik:
+- Constructor injection
+- Setter injection
+- Interface injection
+
+DI felelőségei:
+- objektumok létrehozása
+- tudja, hogy mely osztályok tartoznak ahhoz az objektumokhoz
+- és biztosítja ezeket az objektumoat
+
+A DI előnyei:
+
+
+- **Inversion of Control (IoC):** DI egy kulcs technika, hogy implementáljuk az IoC-t, ahol a objektum létrehozásának a kontrolja áthárul az osztályról egy külső komponensre, ezt gyakran IoC container-nek hívjük. Ez az inversion lehetővé teszi, hogy a rendszer rugalmasabb és bővíthetőbb legyen, mert szétszedi a kopomonsneseket és csökkenti a függőségeket közöttük.
+
+- **Decoupling:** Az osztályaink kevésbé lesznek coupled, azaz összekötve. 
+
+- **Modularity:** Az előzőből következik a modularitás, ahol az osztálynak egy meghatározott feladatköre van és külső dependencykre támaszkodik. 
+
+- **Testability:** DI egyszerűsíti a unit tesztelés, mert könnyen kimockolhatom a dependency-ket. 
+
+- **Configuration Flexibility:** Mivel a függőségeket, kivülről injektálom be, futtatási időben tudom változtatni az alkalmazásomat, hogy éppen milyen külső függőségnek az implementációját használjam. 
+
+**6. What is the DAO pattern? When and how to implement?**
+A DAO (Data Access Object) pattern egy desing patter, amit szoftverfejlesztésben használunk, hogy elkülönítsük az üzleti logikát azoktól a részletektől, hogy az adathoz hogyan férünk hozzá vagy módosítunk egy tárhelyen, mint pl adatbázison, fájlrendszer stb.  abstract API-t, interfészt használunk(DAO pattern lehetővé teszi, hogy elkülönítsük az üzleti réteget a persistence layer-től úgy, hogy egy abstract API-t használunk.)
+
+A DAO pattern növeli a karbantarthatóságot, modularitást és tesztelhetőséget.
+
+DAO pattern fontosabb részei:
+
+- **Data Access Object (DAO):** A központi komponense a DAO patternak, egy DAO interface, ami definiálja az adatbázison végrehajtható műveleteket. Többnyire CRUD metódusokról van szó. 
+
+- **Data Entities vagy DAO model object:** Data entities ek plan old Java objektumok, amik reprezentálják az adatstruktúrát az adatbázisban.  
+
+- **Data Source:** Maga az adatbázis
+
+Mikor és hogyan implementáljuk a DAO Patternt:
+
+**Mikor?**
+
+A service teljesen sötétben marad, hogy miként van megvalósítva a low-level operation, hogy hozzáférhetssünk az adatbázishoz. Ez a separation of logic elve. 
+
+- **Nagy vagy komplex alkalmazásoknál:** The DAO pattern előnyös, ott, ahol bonyolult az adathozzáférés és tigthly coupled az üzleti logikával. Segít abban, hogy az adathozzáférés rendezett és karbantarható legyen.
+
+- **Megváltoztatni az adatforrást:** Pl, ha Sql-ről NoSql -re akarunk váltani.
+
+- **Testing:** A DAO-t in memory-ban tárolhatjuk, vagy egyszerűen kimockolhatjuk.
+
+**Hogyan?**
+
+- **Create DAO model object:** Létrehozok mondjuk egy Book class-t annak property-jeivel.
+
+- **Create DAO Interfaces:** Definiálom az interface-t, hogy persitence layernek megfelelő adatokhoz hozzáférjek.  Majd a business layer fel tudja használni ezt az interface-t, hogy hozzáférjen az adatokhoz.  
+
+- **Implement DAOs:** Létrehozom a konkrét implementációját a DAO interface-nek, ami majd hozzá fog férni az adatbázishoz. 
+
+- **Use Dependency Injection:** A DI elengedhetetlen része a DAO patternek, hisz a logikai layer fog függni a data rétegtől. 
+
+
+
+**7. What is SOA? When to use?**
+
+(SOA egy megközelítés arra, hogy karbantartsuk, fejlesszük a szoftver rendszereket, amik elosztott szervízeken alapulnak. )
+Ez egy szoftvertervezési és fejlesztési megközelítés, amely a szolgáltatásokra összpontosít, és lehetővé teszi a különböző szoftverkomponenseknek, alkalmazásoknak vagy rendszereknek az egymás közötti könnyű kommunikációját és együttműködését.
+
+Softver engineer irányából a SOA egy arhitektúrális pattern, hogy szoftver rendszereket építsünk, amik loosely coupled service componentekből állnak.
+
+SOA rendszerek a következő komponensekből állhatnak
+- Szolgáltatások
+- ESB(ligthweigh webserver OR complex middleware)
+- SDR (service description repository) nagyobb vállalatoknál lehet hasznos
+- clients
+- API gatway
+
+
+A serviceket osztályozhatjuk:
+- Atomic
+- Composit
+
+SOA -ben az owership lehet központosított vagy elosztott. Pl különböző csapatok kezelhetnek különböző rendszereket.
+
+ESB leginkább felelős:
+- routolásért
+- adat transzformációért és üzenet konverzióért
+
+Clients:
+- Használhatják az egész rendszert az ESB-n keresztül vagy lehetnek az egyes szerviceknek internal clientjei.
+
+Api gateway: ez az egész rendszerhez lehet egy kapcsolat a kliensek felé. Single entry point a rendszerhez, ami monjuk az ESB-vel kommunikál.
+
+A SOA főbb jellemzői:
+
+- **Loose Coupling:** Services a SOA-n belül gyengén kötöttek, ez azt jelenti, hogy minimális a függőség van közöttük. Ez lehetővé teszi a flexibilitást és karbantarhatóságot, mert a változtatás egyes szolgáltatáson nincs hatással a másikon. 
+
+- **Interoperability:** A szervízek könnyen tudnak kooperálni, egymás között kommunikálni.
+
+- **Service Abstraction:** A service felhasználók nem látják a szervice implementációját. El van rejtve.
+
+- **Discoverability:** A szolgáltatást könnyen megtalálhatjuk és meghívhatjuk, amikor szükséges.
+
+- **Statelessness:** Lehetőség szerint stateless legyenek a szolgáltatások
+
+Előnyei
+
+- **Újrahasznosíthatóság:** A serviceket, különböző alkalmazásokban újra felhasználhatjuk.
+
+- **Üzemeltethetőség:** Mivel külön lehet üzemeltetni az egyes szerviceket, egyszerübbé válik az üzemeltetése
+
+- **Skálázhatóság:** Az egyik serviceket külön-külön lehet bővíteni
+
+- **Platformfüggetlenség:** 
+
+
+Mikor érdemes SOA-t alkalmazni:
+
+
+- **Enterprise-Szintű Alkalmazásoknál:** SOA használata előnyös olyan helyeken, ahol különféle alkalmazások dolgoznak együtt.
+
+- **Legacy rendszerek integrációjánál:** Legacy rendszereket akarunk meglévő vagy új rendszerekkel összekötni, integrálni
+
+- **Servicek újrahasznosításánál:** A serviceket, különböző alkalmazásokban újra felhasználhatjuk.
+
+- **Scalability and Load Balancing:** Külön külön skálázhatjuk az egyes service-ket
+
+- **Heterogén Környezetek(envs) :** Különböző technológiákat akarunk összekapcsolni
+
+- **Complex Business Processes:** SOA is well-suited for applications with complex business processes that involve the coordination of multiple services and steps.
+
+- **Microservices Migration:** SOA can serve as a stepping stone toward transitioning to a microservices architecture. Organizations can start by creating services within an SOA and gradually decompose them into microservices as needed.
+
+Windows Communication Foundation (WCF) egy api. Szolgáltatásvégpont lehet az IIS által üzemeltetett, folyamatosan elérhető szolgáltatás része, vagy lehet egy alkalmazásban üzemeltetett szolgáltatás(internal).
+
+
+### Testing
+
+**8.What are unit test, integration test, system test, regression test, acceptance test? What is the major difference between these?**
+
+**Unit Test:**
+
+- **Purpose:** Unit tests focus on testing individual units or components of a software application in isolation. These units can be functions, methods, or classes.
+- **Scope:** They are narrow in scope and are concerned with verifying that a specific unit of code behaves correctly and produces the expected output for various inputs.
+- **Dependencies:** Unit tests should isolate the unit being tested by using mock objects or stubs to replace external dependencies.
+- **Typical Tools:** Unit testing frameworks like JUnit (Java), pytest (Python), or NUnit (.NET) are commonly used for writing and executing unit tests.
+
+**Integration Test:**
+
+- **Purpose:** Integration tests aim to verify the interactions and integration points between different components or modules of a system.
+- **Scope:** They have a broader scope than unit tests and focus on ensuring that different units or modules work correctly together when combined.
+- **Dependencies:** Integration tests often involve real external dependencies (e.g., databases, web services) and test how the components interact with these dependencies.
+- **Typical Tools:** Various testing frameworks can be used for integration testing, and the choice may depend on the technology stack and testing needs of the project.
+
+**System Test:**
+
+- **Purpose:** System tests evaluate the entire system or application as a whole. They verify that the complete software system meets its specified requirements and behaves as expected.
+- **Scope:** System tests cover end-to-end scenarios and test the system's functionality, performance, security, and other non-functional aspects.
+- **Dependencies:** System tests typically use the entire production environment, including real databases, servers, and external services.
+- **Typical Tools:** Automated testing tools like Selenium (for web applications), JIRA (for test management), and custom testing frameworks are often used for system testing.
+
+**Regression Test:**
+
+- **Purpose:** Regression tests ensure that changes or enhancements to the software do not introduce new defects or regressions into existing functionality.
+- **Scope:** They focus on retesting previously tested scenarios to confirm that the latest changes have not broken anything that was previously working.
+- **Dependencies:** Regression tests often require a comprehensive suite of test cases that cover various aspects of the software.
+- **Typical Tools:** Automated testing tools and test management systems are frequently used for managing and executing regression tests.
+
+**Acceptance Test:**
+
+- **Purpose:** Acceptance tests are performed to determine whether the software meets the acceptance criteria defined by the stakeholders, such as customers, end-users, or product owners.
+- **Scope:** They focus on validating that the software meets business requirements and satisfies the needs of the intended users.
+- **Dependencies:** Acceptance tests are typically written from a user's perspective and may involve manual testing by users or automated testing using specific user scenarios.
+- **Typical Tools:** Automated acceptance testing tools like Cucumber, Behave, or SpecFlow are often used to write and execute acceptance tests, especially in Agile development environments.
+
+In software development, these various types of tests play complementary roles in ensuring the quality and reliability of the software. Unit tests catch issues at the smallest level of code, while integration, system, and regression tests verify that different parts of the application work together and continue to function as expected. Acceptance tests are crucial for validating that the software aligns with user expectations and business requirements. Collectively, these tests help identify and address defects at different stages of development, from code implementation to the final product release.
+
+**8.What is code coverage? Why is it used? How you can measure?**
+Szoftver metrik, ami megmutatja, hogy a tesztek hány százaléka fedi le a kódunkat.
+Code Coverage Percentage = (Number of lines of code executed by a testing algorithm/Total number of lines of code in a system component) * 100
+Növeljük a kód query-t, így a szoftver qualityit is.
+
+#### What does mocking mean? How would you do it 'manually' (i. e. without using any fancy framework)?
+Unit tesztelésnél használjuk. Egy objektumnak lehetnek függősége másik objektumoktól. Ezeket a függőségeknek a viselkedését tudjuk szimullálni. 
+Stubolhatunk egy inmememory adatbázist, hogy egyátalán működjön a teszt, hogy írunk olvasunk adatot, de hogy az objektum megfelelő adatot ír az adatbázisba, ki kell mockolnunk az adatbázist.
+Manuálisan létrehozhatun egy mock objektumot, ami úgy viselkedik, mint egy valós dependency. Mondjuk inmemory adatbázissal, pl map-el, ami szimulálja az adatbázisunkat. Kibővíthetjük a mock adatbázist pl hogy bizonyos esetekben dobjon exceptiont. A valódi adatbázist lecserélem erre a mock adatbázisra.
+Végül unit teszttel pl assertEquals-al ellenőrzöm a kívánt eredményt.
+#### What is a test case? What is an assertion? Give examples!
+- Test case: Lépések, cselekvések inputok sorozata, amit arra terveztek, hogy a szoftver egy bizonyos aspektusa az elvártaknak megfelelően működik.
+- Assertion: Egy statement, állítás vagy egy darab kód, aminek a kimenete a test case futása során dől el. Ha a kimenetel igaz, akkor az assertion pass-os, ha false, akkor failed, ami problémát jelez a szoftverben.
+- Assertion.equals(expected, actual)
+#### What is TDD? What are the benefits?
+- Szofter fejlesztési törekvés, ami során az autómata teszteket először megírjuk, mielött a kódot implementálnánk.
+Előnyei:
+  - Kód qulity,
+  - Regressziós tesztelés
+  - Dokumentáció
+  - Gyorsabb debuggolás
+#### What are the unit testing best practices? (Eg. how many assertion should a test case contain?)
+- Minden unit tesztnek egyetlen funkcionalitásra vagy viselkedésre kell összpontosítania. Kerüljük az egyszerre több, egymással nem összefüggő viselkedést tesztelő esetet.
+- Használjunk beszédes tesztneveket
+- Függetlenek legyenek a tesztek egymástól, dependency-ket kerüljük
+- Beforeach
+- Miminális adathasználat
+- Szélső értékek tesztelése (edge cases)
+- Errorokat teszteljünk
+- Sokszor futtassuk
+- Refaktoráljunk
+
+#### What is arrange/act/assert pattern?
+- Arrange: Objektumokat, változókat hozunk létre. Preparing. A tesztünk egy Jól definiált starting pointtal indul.
+- Act: Lefuttatom a kódot, amit tesztelni akarok.
+- Assert: Ellenőrzöm a act fázis kimenetelét, hogy megegyezik azzal, amit elvártunk.
+
+### DevOps
+
+#### What is continuous integration? Why is CI important?
+- Developers practicing continuous integration merge their changes back to the main branch as often as possible. The developer's changes are validated by creating a build and running automated tests against the build. 
+- By doing so, you avoid integration challenges that can happen when waiting for release day to merge changes into the release branch.
+Here's why CI is important:
+
+First 3 is the most important
+
+1. Early Detection of Issues: CI helps identify bugs, integration problems, and compatibility issues as soon as code changes are submitted. This allows developers to address these issues while they are still fresh in their minds and before they become more complex and costly to fix.
+
+2. Improved Code Quality: By running automated tests and code analysis tools with every code integration, CI ensures that only high-quality, well-tested code is merged into the main codebase. This leads to a more stable and reliable software product.
+
+3. Faster Development Cycles: CI accelerates the development process by automating repetitive tasks like building, testing, and deployment. Developers can receive immediate feedback on their code changes, allowing them to iterate quickly and deliver new features or fixes faster.
+
+4. Collaboration: CI encourages collaboration among team members. Developers can work on different parts of a project simultaneously, confident that CI pipelines will detect and resolve conflicts or issues during integration.
+
+5. Consistency: CI enforces consistent coding standards and practices across the development team, reducing the likelihood of human errors and ensuring that code is written according to established guidelines.
+
+6. Confidence in Releases: With CI in place, you can have greater confidence in the stability and reliability of your software releases. Since code changes are continuously validated, there's less risk of introducing critical issues into production.
+
+7. Scalability: CI scales well with larger development teams and complex projects. It helps maintain order and efficiency even as the codebase grows and more developers contribute.
+
+8. Documentation: CI pipelines can include automated documentation generation, ensuring that project documentation is always up to date.
+
+
+#### Why are tests important in the CI workflow?
+1. Early Issue Detection: Automated tests, including unit tests, integration tests, and other forms of testing, can quickly detect issues and bugs in code changes as soon as they are committed. This early detection is crucial for addressing problems when they are still fresh in the developers' minds and easier to fix.
+
+2. Code Quality Assurance: Tests ensure that the code adheres to predefined quality and functional standards. They help enforce coding guidelines, maintain consistency, and prevent common programming errors. This leads to improved code quality.
+
+3. Regression Testing: Automated tests help prevent the introduction of new bugs or unintended consequences when making changes to existing code. They provide a safety net that ensures that existing functionality continues to work as expected after new code is added.
+
+4. Confidence in Code Changes: Developers and teams can have confidence that their code changes are correct and do not negatively impact the existing system. This confidence encourages more frequent and smaller code deployments, leading to a more agile development process.
+
+5. Documentation and Specification: Test cases can serve as documentation for how specific parts of the system are supposed to behave. They act as a form of living documentation that helps developers understand the intended functionality and behavior of the code.
+
+6. Collaboration and Communication: Tests provide a common language for developers, testers, and stakeholders to discuss and understand the expected behavior of the software. They facilitate communication within the team and with external stakeholders.
+
+7. Automated Validation: Automated testing can be integrated into the CI pipeline, ensuring that every code change is automatically tested. This reduces the risk of human error and guarantees that all code is validated consistently.
+
+8. Quick Feedback: Automated tests provide rapid feedback to developers. If a code change breaks an existing test or introduces a new issue, developers are immediately alerted, allowing them to fix the problem before it impacts other team members or the production environment.
+
+9. Continuous Improvement: Test results can be used to identify areas of the codebase that may need improvement or refactoring. Over time, this contributes to a more maintainable and scalable codebase.
+
+10. Reduced Deployment Risks: With thorough testing in place, the risk of deploying faulty code to production is significantly reduced. This is especially important in a CI/CD pipeline, where code changes can potentially be automatically deployed to production.
+
+In essence, tests are a fundamental component of the CI workflow because they ensure code quality, facilitate collaboration, and provide a safety net for continuous integration and deployment. They play a pivotal role in delivering reliable and maintainable software products.
+
+#### Name some software that help the CI workflow!
+- Jenkins
+- Travis CI
+- Gitlab CI
+- AWS CI
+- Miscrosoft VSTS
+#### What is Continuous Delivery?
+Continuous Delivery is the ability to get changes of all types—including new features, configuration changes, bug fixes and experiments—into production, or into the hands of users, safely and quickly in a sustainable way.
+- Low risk releases.
+- Faster time to market.
+- Higher quality. 
+- Lower costs.
+- Better products.
+- Happier teams
+#### What is Continuous Deployment?
+Every change that passes all stages of your production pipeline is released to your customers. 
+There's no human intervention, and only a failed test will prevent a new change to be deployed to production.
+
+Continuous deployment is an excellent way to accelerate the feedback loop with your customers and take pressure off the team as there isn't a "release day" anymore. Developers can focus on building software, and they see their work go live minutes after they've finished working on it.
+#### What is DevOps?
+DevOps is a set of practices, principles, and cultural philosophies that aim to improve and automate the collaboration and communication between software development (Dev) and IT operations (Ops) teams within an organization. The primary goal of DevOps is to enable faster and more reliable software delivery by breaking down the traditional silos between these two functions and fostering a culture of collaboration, automation, and continuous improvement.
+
+### Software Methodologies
+
+#### What kind of software-lifecycle models do you know?
+- Vízesés
+- Agilis model: A fejlesztés Iteratív megközelíése, ami rugalmas a változásokra. 2-4 hetes sprintek, 
+    - Scrum: Sprintek, Product Owner, Srcrum Master, Product Baclog, Dauky scrum, Sprint review és spring retrospective
+    - Kanban
+- Lean
+#### What is a UML diagram? What kind of diagram types do you know?
+Szoftvertervezési és modellezési nyelv. Grafikusan tudjuk ábrázolni az elemek közötti kapcsolatokat
+- Struktúrális diagramok:
+    - Osztálydiagram: Az osztályokat, azok tulajdonságait és kapcsolatait ábrázolja.
+    - Objektumdiagram: Az aktuális objektumok példányait és azok közötti kapcsolatokat ábrázolja.
+    - Komponensdiagram: A szoftverkomponensek és azok közötti kapcsolatokat mutatja be.
+    - Csomóontdiagram: Hálózati struktúrákat, például a rendszer topológiáját ábrázolja.
+#### What is a UML class diagram? What are the typical elements?
+Alkamazásokt alkotó oszályok és ezek közötti kapcsolatok ábrázolására szolgál.
+- Oszályok
+- Interfészek
+- Abasztrak osztályok
+- Attribútumok
+- Metódusok
+- Kapcsolatok
+  - Asszociáció
+  - Kardinalitás
+  - Öröklődés
+  - Aggregáció
+  - Kompozíció
+  - Dependency
+
+#### What kind of design patterns do you know? Bring at least 3 examples.
+- Creational Pattern
+  - Singleton
+  - Factory pattern
+  - Abstract factory pattern
+- Structural Pattern
+  - Adapter: Inkompatibilis interfészek együttműködése
+- Behavioural Pattern
+  - Observer Pattern:Van egy observable osztály, amire az obsererek fel tudnak iratkozni. A felirakotozott observerek étesülnek, ha az observeble-nek megváltozik az állapota
+  - Template method!!! Utánanézni
+
+#### What is the purpose of the Iterator Pattern?
+Az iterátor pattern lényege, hogy kiszedjük a collection bejárási viselkedését egy külön objektumba, amit iterátornak hívunk.
+A célja az, hogy, hogy a kliens kompatibilis legyen bármilyen kollekcióval vagy bejárási algoritmussal, amíg van egy megfelelő iterátor. 
+#### What do you know about the SOLID principles?
+SOLID elvek 5 dizájn elvre épül, hogy karbantartható és jól érthető programokat írjunk. Robert C Martin találta ki, hogy moduláris és flexibilis kódot hozzunk létre. 
+#### How would you separate data storage code and business logic code (which uses stored data) in an application?
+Create Separate Modules or Layers
+Hozzunk létre két külön modult vagy layert.
+Data Access Layert
+Business Logic Layert
+Példa: Stack Overflow feladat.
+## Computer science
+
+### Data Structures
+#### What is the difference between Stack and Queue data structure?
+Mindegyik lineáris adatstruktúra.
+Fifo lifo. 
+#### What is a graph? What are simple graphs? What are directed graphs? What are weighted graphs?
+Gráf egy nem lineáris adatstruktúra, ami csúcspontokból és élekből áll.
+- Simple graph: Nincsenek magukba mutató loopok és több él két csúcspont között. Gyakran undirected gráfnak is szoktuk mondani
+- Irányított gráf: Az élnek van iránya. Ez egy egy irányú kapcsolat. (plusz információ)
+- Súlyozott gráf: Az élen lehet valamilyen súly vagy cost. Pl útvonal összege
+#### What are trees? What are binary trees? What are binary search trees?
+Nem lineáris hierarhikus adatstruktúra. Sok helyen használjuk, DOM tree, folder structure. 
+Elemei:
+- Csúcspont
+- Él
+- Gyökér
+- Gyerek
+- Szülő
+- Levél
+
+**Bináris fa** egy olyan speciális fa, amhol minden egyes nodenak maximum 2 gyereke lehet. Bal és jobb
+Példa rá a Binary search tree
+
+**Bináris search tree:** egy olyan bináris fa, ahol a baloldalon mindig kisebb vagy egyenlő értékek lehetnek mint a jobb oldalon
+Adatstruktúráknál szoktál használni keresésre, mert nagyon hatékony
+#### How can you store graphs in programs? What are the advantages/disadvantages per each?
+- Adjacent matrix:
+Előnyei:
+  - Könnyen implementálható
+  - Azonnal meg tudja mondani, hogy van e él két csúcspont között
+Hátrányai:
+  - Nagyon sok helyet foglalnak
+  - n2, hogy új element adjunk hozzá
+- Adjacent list
+Előnyei:
+  - Helyet spórol
+  - Node-ot hozzáadni viszonylag gyors
+Hátrányai:
+  - lassan találjuk meg az éleket
+#### What are graph traversal algorithms? What is BFS, how does it work? What is DFS, how does it work?
+Be tudjuk járni az gráfot, hogy megtaláljunk egy útvonapárt.
+- BFS queue-t használ. Ez arra jó, hogy a legjobb útvonalat találjuk meg
+- DFS pedig rekúrzívan működik. Ez arra, hogy találjuk meg leggyorsabban az útvonalat. Pl maze kijutú.
+#### How does dictionary work?
+Hashmap az értékből generál egy hash-t majd modulóval leszotja és eltárolja a key value-t a megfelelő bucketben. Láncolt lista első elemében ahol a következő elem egyenlőre null kesz.
+Ha van collition, akkor ezt a listát bővíti.
+#### Why is it important for keys in a hashmap to have an immutable type? (Consider string for example.)
+Mert az értékei változhatnak és akkor már a hashcode mást fog legenerálni.
+### Algorithms
+#### What is QuickSort? Describe the main logic of this sorting algorithm.
+nlogn komplexitású algoritmus, ami az osztd meg és uralkodj elve alapján működik. Választok egy pivotot, mondjuk a jobboldali elemet és partíción belül sorbarandezem az elemeket
+## Software design
+
+### Security
+
+#### What is OAuth2?
+- OAuth 2 is an authorization framework that enables applications — such as Facebook, GitHub, and DigitalOcean — to obtain limited access to user accounts on an HTTP service. It works by delegating user authentication to the service that hosts a user account and authorizing third-party applications to access that user account. OAuth 2 provides authorization flows for web and desktop applications, as well as mobile devices.
+
+#### What is Basic Authentication?
+Amikor az auth headerben küldöm a base64-encoded username passwordot.
+#### What is CORS, why it’s needed in browsers?
+- `C`ross-`O`rigin `R`esource `S`haring is a policy which decides whether the browser can access resources form a server that's different form the website origin, or not
+#### How can you initialize a CSRF attack?
+Megkérem a user-t, hogy jelentkezzen be egy oldalra.
+HTTP attack, ahol linket küld valaki, ha rákkattintok, akkor van benne egy HTTP kérés, amivel get vagy post requestet küld.
+CSRF tokennel és SAME site cookie val lehet
+#### What is JWT used for? Where to store it on client side?
+Auth-ra használjuk
+Header
+Payload
+Signature-ból áll
+Cookie-ban, Localstorage, Session Storageben tároljuk
+
+### Threaded programming
+
+#### When do you need to use threads in an application?
+Asszinkron programozásnál.
+Párhuzamosítás
+#### What is a daemon thread?
+Háttérben futó szál.
+#### What is the difference between concurrent and parallel execution of code?
+Paralellnél egymástól függetlenül futnak. 11, 22, 33, 44, 55
+#### What is the most important problem developers are faced when using threads?
+HA ugyanahoz a resourcehoz akarnak hozzáférni mind a ketten. Szinkornitási problémák léphetnek fel.
+#### In what kind of situations can deadlocks occur?
+Egyik szál vár a másikra, a másik pedig elsőre.
+#### What are possible ways to prevent deadlocks from occurring?
+Olyan design alkalmazzunk, hogy ezt elkerüljük.
+
+#### What does critical section or critical region mean in the context of concurrent programming?
+Olyan resource, amihez több thread hozzáfér.
